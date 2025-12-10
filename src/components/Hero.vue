@@ -2,7 +2,8 @@
   <section class="hero">
     <div class="hero-content">
       <h1 class="hero-title">
-        The Package Host for Crabby Developers
+        <span class="hero-title-top">The Package Host for</span>
+        <span class="typing-text">Crabby Developers</span>
       </h1>
       <p class="hero-subtitle">
         Discover, share, and deploy <b>Crabby</b> packages and libraries with reefs.io. 
@@ -75,11 +76,18 @@
   font-size: 3.5rem;
   font-weight: 800;
   margin: 0 0 1.5rem 0;
+  line-height: 1.2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hero-title-top {
   background: linear-gradient(135deg, #f26727, #f07237);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  line-height: 1.2;
+  font-weight: bold;
 }
 
 .hero-subtitle {
@@ -198,6 +206,30 @@
   50% {
     transform: translateY(-20px);
   }
+}
+
+@keyframes typing {
+  0% {
+    width: 0;
+    visibility: visible;
+  }
+  100% {
+    width: 22.5ch;
+  }
+}
+
+.typing-text {
+  font-weight: bold;
+  display: inline-block;
+  overflow: hidden;
+  border-right: 3px solid #f26727;
+  white-space: nowrap;
+  animation: typing 3.5s steps(23, end) infinite;
+  padding-right: 5px;
+  background: linear-gradient(135deg, #f26727, #f07237);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 @media (max-width: 768px) {

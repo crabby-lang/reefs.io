@@ -4,11 +4,11 @@
       <div class="footer-content">
         <div class="footer-section">
           <h4>reefs.io</h4>
-          <p>The modern package hosting platform for developers everywhere.</p>
+          <p>The modern package hosting platform for crabby developers.</p>
           <div class="social-links">
-            <a href="#" aria-label="GitHub">🐙</a>
-            <a href="#" aria-label="Twitter">𝕏</a>
-            <a href="#" aria-label="Discord">💬</a>
+            <a href="https://github.com/crabby-lang/reefs.io" aria-label="GitHub">🐙</a>
+            <a href="" aria-label="Twitter">𝕏</a>
+            <a href="" aria-label="Discord">💬</a>
           </div>
         </div>
 

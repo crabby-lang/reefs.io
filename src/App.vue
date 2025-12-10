@@ -1,25 +1,27 @@
 <script setup>
 import Navigation from './components/Navigation.vue'
-import Hero from './components/Hero.vue'
-import Features from './components/Features.vue'
-import Packages from './components/Packages.vue'
-import CTA from './components/CTA.vue'
 import Footer from './components/Footer.vue'
 </script>
 
 <template>
-  <Navigation />
-  <main>
-    <Hero />
-    <Features />
-    <Packages />
-    <CTA />
-  </main>
-  <Footer />
+  <div class="app-container">
+    <Navigation />
+    <main>
+      <router-view />
+    </main>
+    <Footer />
+  </div>
 </template>
 
 <style scoped>
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 main {
+  flex: 1;
   width: 100%;
 }
 </style>

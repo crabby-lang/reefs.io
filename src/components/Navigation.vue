@@ -1,28 +1,37 @@
 <template>
   <nav class="navbar">
     <div class="nav-container">
-      <div class="nav-logo">
+      <router-link to="/" class="nav-logo">
         <span class="logo-icon">🪸</span>
         <span class="logo-text">reefs.io</span>
-      </div>
+      </router-link>
       <ul class="nav-menu">
         <li class="nav-item">
-          <a href="/features" class="nav-link">Features</a>
+          <router-link to="/" class="nav-link">Home</router-link>
         </li>
         <li class="nav-item">
-          <a href="/packages" class="nav-link">Packages</a>
+          <router-link to="/packages" class="nav-link">Packages</router-link>
         </li>
         <li class="nav-item">
-          <a href="/docs" class="nav-link">Docs</a>
+          <router-link to="/features" class="nav-link">Features</router-link>
         </li>
         <li class="nav-item">
-          <a href="/community" class="nav-link">Community</a>
+          <router-link to="/docs" class="nav-link">Docs</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/community" class="nav-link">Community</router-link>
         </li>
       </ul>
-      <button class="nav-btn">Get Started</button>
+      <button class="nav-btn" @click="navigateToGetStarted">Get Started</button>
     </div>
   </nav>
 </template>
+
+<script setup>
+const navigateToGetStarted = () => {
+  window.open('https://github.com', '_blank')
+}
+</script>
 
 <style scoped>
 .navbar {
@@ -53,6 +62,12 @@
   text-decoration: none;
   white-space: nowrap;
   flex-shrink: 0;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.nav-logo:hover {
+  color: #f07237;
 }
 
 .logo-icon {
