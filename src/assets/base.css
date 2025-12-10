@@ -58,8 +58,12 @@
   font-weight: normal;
 }
 
+html {
+  height: 100%;
+}
+
 body {
-  min-height: 100vh;
+  margin: 0;
   color: var(--color-text);
   background: var(--color-background);
   transition:
@@ -83,4 +87,6 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
 }
