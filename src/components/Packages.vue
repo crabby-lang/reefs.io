@@ -4,10 +4,6 @@
       <h2 class="section-title">Popular Packages</h2>
       <p class="section-subtitle">Explore some of our most loved packages</p>
 
-      /**
-      * Package Card goes here later on
-      */
-
       <div class="packages-footer">
         <button class="btn btn-explore">Browse All Packages →</button>
       </div>
