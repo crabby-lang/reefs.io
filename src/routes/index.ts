@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../view/HomeView.vue'
 import Package from '../view/PackageView.vue'
 import Documentation from '../view/DocumentationView.vue'
+import Community from '../view/CommunityView.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -27,7 +28,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/community',
     name: 'Community',
-    component: Home
+    component: Community
   }
 ]
 

@@ -13,9 +13,6 @@
           <router-link to="/packages" class="nav-link">Packages</router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/features" class="nav-link">Features</router-link>
-        </li>
-        <li class="nav-item">
           <router-link to="/docs" class="nav-link">Docs</router-link>
         </li>
         <li class="nav-item">

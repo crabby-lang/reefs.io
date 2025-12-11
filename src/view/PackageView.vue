@@ -490,10 +490,11 @@ onMounted(async () => {
 }
 
 .no-packages {
+  font-weight: bold;
   grid-column: 1 / -1;
   text-align: center;
   padding: 3rem;
-  color: #666;
+  color: #000000;
   font-size: 1.1rem;
 }
 
