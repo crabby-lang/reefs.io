@@ -26,7 +26,7 @@
 
 <script setup>
 const navigateToGetStarted = () => {
-  window.open('https://github.com', '_blank')
+  window.open('/register')
 }
 </script>
 
