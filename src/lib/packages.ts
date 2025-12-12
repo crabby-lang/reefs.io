@@ -43,13 +43,11 @@ async function connectToDatabase(): Promise<Db> {
   }
 }
 
-// Get packages collection
 async function getPackagesCollection(): Promise<Collection<Package>> {
   const db = await connectToDatabase();
   return db.collection<Package>(PACKAGES_COLLECTION);
 }
 
-// Get all packages
 export async function getAllPackages(): Promise<Package[]> {
   try {
     const collection = await getPackagesCollection();
@@ -61,7 +59,6 @@ export async function getAllPackages(): Promise<Package[]> {
   }
 }
 
-// Get packages by category
 export async function getPackagesByCategory(category: string): Promise<Package[]> {
   try {
     const collection = await getPackagesCollection();
@@ -73,7 +70,6 @@ export async function getPackagesByCategory(category: string): Promise<Package[]
   }
 }
 
-// Get single package by name
 export async function getPackageByName(name: string): Promise<Package | null> {
   try {
     const collection = await getPackagesCollection();
@@ -85,7 +81,6 @@ export async function getPackageByName(name: string): Promise<Package | null> {
   }
 }
 
-// Get total package count
 export async function getTotalPackageCount(): Promise<number> {
   try {
     const collection = await getPackagesCollection();
@@ -97,7 +92,6 @@ export async function getTotalPackageCount(): Promise<number> {
   }
 }
 
-// Get package count by category
 export async function getPackageCountByCategory(category: string): Promise<number> {
   try {
     const collection = await getPackagesCollection();
@@ -109,7 +103,6 @@ export async function getPackageCountByCategory(category: string): Promise<numbe
   }
 }
 
-// Get top downloaded packages
 export async function getTopDownloadedPackages(limit: number = 10): Promise<Package[]> {
   try {
     const collection = await getPackagesCollection();
@@ -125,7 +118,6 @@ export async function getTopDownloadedPackages(limit: number = 10): Promise<Pack
   }
 }
 
-// Create or update a package
 export async function upsertPackage(pkg: Package): Promise<Package | null> {
   try {
     const collection = await getPackagesCollection();
@@ -141,7 +133,6 @@ export async function upsertPackage(pkg: Package): Promise<Package | null> {
   }
 }
 
-// Increment package download count
 export async function incrementPackageDownloads(name: string): Promise<void> {
   try {
     const collection = await getPackagesCollection();
@@ -154,7 +145,6 @@ export async function incrementPackageDownloads(name: string): Promise<void> {
   }
 }
 
-// Delete a package
 export async function deletePackage(name: string): Promise<boolean> {
   try {
     const collection = await getPackagesCollection();
@@ -181,7 +171,6 @@ export async function getPackageStatistics(): Promise<{
       .limit(5)
       .toArray();
 
-    // Get category breakdown
     const categories = await collection.aggregate([
       { $group: { _id: '$category', count: { $sum: 1 } } }
     ]).toArray();
@@ -206,7 +195,6 @@ export async function getPackageStatistics(): Promise<{
   }
 }
 
-// Close database connection
 export async function closeDatabase(): Promise<void> {
   if (cachedClient) {
     await cachedClient.close();

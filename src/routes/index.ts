@@ -3,6 +3,8 @@ import Home from '../view/HomeView.vue'
 import Package from '../view/PackageView.vue'
 import Documentation from '../view/DocumentationView.vue'
 import Community from '../view/CommunityView.vue'
+import Publish from '../view/PublishView.vue'
+import { verifySessionGuard } from '../lib/routeGuards'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -29,6 +31,10 @@ const routes: RouteRecordRaw[] = [
     path: '/community',
     name: 'Community',
     component: Community
+  },
+  {
+    path: '/publish',
+    component: Publish
   }
 ]
 
@@ -43,5 +49,8 @@ const router = createRouter({
     }
   }
 })
+
+// Apply global guard to verify sessions
+router.beforeEach(verifySessionGuard)
 
 export default router
