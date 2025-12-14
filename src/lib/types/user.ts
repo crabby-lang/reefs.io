@@ -1,11 +1,11 @@
 export interface User {
-  _id?: string
+  id: string
   username: string
   email: string
   password?: string
-  createdAt?: Date
-  updatedAt?: Date
-  isActive?: boolean
+  created_at: string
+  updated_at: string
+  is_active: boolean
 }
 
 export interface UserLoginPayload {

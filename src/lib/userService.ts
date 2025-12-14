@@ -1,14 +1,13 @@
-import { MongoClient, Db, Collection } from 'mongodb'
+import { createClient } from '@supabase/supabase-js'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import type { User, UserLoginPayload, UserSignupPayload, AuthResponse } from './types/user'
 
 class UserService {
   private static instance: UserService
-  private client: MongoClient | null = null
-  private db: Db | null = null
-  private usersCollection: Collection<User> | null = null
-  private mongoUri: string = process.env.MONGODB_URI || 'mongodb://localhost:27017/reefs_io'
-  private dbName: string = 'reefs_io'
-  private collectionName: string = 'users'
+  private supabase: SupabaseClient | null = null
+  private supabaseUrl: string = process.env.VITE_SUPABASE_URL || ''
+  private supabaseAnonKey: string = process.env.VITE_SUPABASE_ANON_KEY || ''
+  private tableName: string = 'users'
 
   private constructor() {}
 
@@ -21,44 +20,45 @@ class UserService {
 
   async connect(): Promise<void> {
     try {
-      if (this.client) {
-        console.log('MongoDB already connected')
+      if (this.supabase) {
+        console.log('Supabase already connected')
         return
       }
 
-      this.client = new MongoClient(this.mongoUri)
-      await this.client.connect()
-      this.db = this.client.db(this.dbName)
-      this.usersCollection = this.db.collection(this.collectionName)
+      if (!this.supabaseUrl || !this.supabaseAnonKey) {
+        throw new Error('Missing Supabase URL or anonymous key in environment variables')
+      }
 
-      await this.usersCollection.createIndex({ username: 1 }, { unique: true })
-      await this.usersCollection.createIndex({ email: 1 }, { unique: true })
-
-      console.log('MongoDB connected successfully')
+      this.supabase = createClient(this.supabaseUrl, this.supabaseAnonKey)
+      console.log('Supabase connected successfully')
     } catch (error) {
-      console.error('Failed to connect to MongoDB:', error)
+      console.error('Failed to connect to Supabase:', error)
       throw error
     }
   }
 
   async disconnect(): Promise<void> {
-    if (this.client) {
-      await this.client.close()
-      this.client = null
-      this.db = null
-      this.usersCollection = null
-      console.log('MongoDB disconnected')
-    }
+    this.supabase = null
+    console.log('Supabase disconnected')
   }
 
   async verifyUser(username: string): Promise<boolean> {
     try {
-      if (!this.usersCollection) {
+      if (!this.supabase) {
         await this.connect()
       }
 
-      const user = await this.usersCollection!.findOne({ username })
-      return !!user
+      const { data, error } = await this.supabase!
+        .from(this.tableName)
+        .select('id')
+        .eq('username', username)
+        .single()
+
+      if (error && error.code !== 'PGRST116') {
+        throw error
+      }
+
+      return !!data
     } catch (error) {
       console.error('Error verifying user:', error)
       return false
@@ -67,12 +67,21 @@ class UserService {
 
   async getUserByUsername(username: string): Promise<User | null> {
     try {
-      if (!this.usersCollection) {
+      if (!this.supabase) {
         await this.connect()
       }
 
-      const user = await this.usersCollection!.findOne({ username })
-      return user || null
+      const { data, error } = await this.supabase!
+        .from(this.tableName)
+        .select('*')
+        .eq('username', username)
+        .single()
+
+      if (error && error.code !== 'PGRST116') {
+        throw error
+      }
+
+      return data || null
     } catch (error) {
       console.error('Error getting user:', error)
       return null
@@ -81,39 +90,51 @@ class UserService {
 
   async createUser(payload: UserSignupPayload): Promise<AuthResponse> {
     try {
-      if (!this.usersCollection) {
+      if (!this.supabase) {
         await this.connect()
       }
 
-      const existingUser = await this.usersCollection!.findOne({
-        $or: [{ username: payload.username }, { email: payload.email }]
-      })
+      const { data: existingUser } = await this.supabase!
+        .from(this.tableName)
+        .select('id')
+        .or(`username.eq.${payload.username},email.eq.${payload.email}`)
+        .limit(1)
 
-      if (existingUser) {
+      if (existingUser && existingUser.length > 0) {
         return {
           success: false,
           message: 'Username or email already exists'
         }
       }
 
-      const newUser: User = {
-        username: payload.username,
-        email: payload.email,
-        password: payload.password,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        isActive: true
-      }
+      const { data, error } = await this.supabase!
+        .from(this.tableName)
+        .insert([
+          {
+            username: payload.username,
+            email: payload.email,
+            password: payload.password,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+            is_active: true
+          }
+        ])
+        .select()
+        .single()
 
-      const result = await this.usersCollection!.insertOne(newUser as any)
+      if (error) {
+        throw error
+      }
 
       return {
         success: true,
         user: {
-          _id: result.insertedId.toString(),
-          username: newUser.username,
-          email: newUser.email,
-          createdAt: newUser.createdAt
+          id: data.id,
+          username: data.username,
+          email: data.email,
+          created_at: data.created_at,
+          updated_at: data.updated_at,
+          is_active: data.is_active
         },
         message: 'User created successfully'
       }
@@ -128,27 +149,35 @@ class UserService {
 
   async authenticateUser(payload: UserLoginPayload): Promise<AuthResponse> {
     try {
-      if (!this.usersCollection) {
+      if (!this.supabase) {
         await this.connect()
       }
 
-      const user = await this.usersCollection!.findOne({ username: payload.username })
+      const { data, error } = await this.supabase!
+        .from(this.tableName)
+        .select('*')
+        .eq('username', payload.username)
+        .single()
 
-      if (!user) {
+      if (error && error.code !== 'PGRST116') {
+        throw error
+      }
+
+      if (!data) {
         return {
           success: false,
           message: 'User not found'
         }
       }
 
-      if (user.password !== payload.password) {
+      if (data.password !== payload.password) {
         return {
           success: false,
           message: 'Invalid password'
         }
       }
 
-      const { password, ...userWithoutPassword } = user
+      const { password, ...userWithoutPassword } = data
 
       return {
         success: true,
@@ -166,19 +195,27 @@ class UserService {
 
   async updateUser(username: string, updates: Partial<User>): Promise<AuthResponse> {
     try {
-      if (!this.usersCollection) {
+      if (!this.supabase) {
         await this.connect()
       }
 
-      updates.updatedAt = new Date()
+      const updatePayload = {
+        ...updates,
+        updated_at: new Date().toISOString()
+      }
 
-      const result = await this.usersCollection!.findOneAndUpdate(
-        { username },
-        { $set: updates },
-        { returnDocument: 'after' }
-      )
+      const { data, error } = await this.supabase!
+        .from(this.tableName)
+        .update(updatePayload)
+        .eq('username', username)
+        .select()
+        .single()
 
-      if (!result) {
+      if (error) {
+        throw error
+      }
+
+      if (!data) {
         return {
           success: false,
           message: 'User not found'
@@ -187,7 +224,7 @@ class UserService {
 
       return {
         success: true,
-        user: result as User,
+        user: data as User,
         message: 'User updated successfully'
       }
     } catch (error) {
@@ -201,17 +238,17 @@ class UserService {
 
   async deleteUser(username: string): Promise<AuthResponse> {
     try {
-      if (!this.usersCollection) {
+      if (!this.supabase) {
         await this.connect()
       }
 
-      const result = await this.usersCollection!.deleteOne({ username })
+      const { error } = await this.supabase!
+        .from(this.tableName)
+        .delete()
+        .eq('username', username)
 
-      if (result.deletedCount === 0) {
-        return {
-          success: false,
-          message: 'User not found'
-        }
+      if (error) {
+        throw error
       }
 
       return {
@@ -229,11 +266,19 @@ class UserService {
 
   async getAllUsers(): Promise<User[]> {
     try {
-      if (!this.usersCollection) {
+      if (!this.supabase) {
         await this.connect()
       }
 
-      return await this.usersCollection!.find({}).toArray() as User[]
+      const { data, error } = await this.supabase!
+        .from(this.tableName)
+        .select('*')
+
+      if (error) {
+        throw error
+      }
+
+      return (data || []) as User[]
     } catch (error) {
       console.error('Error getting all users:', error)
       return []
