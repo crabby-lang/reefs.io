@@ -119,6 +119,7 @@
 }
 
 /* ============ Notice Card Styling ============ */
+
 .notice-card {
   background: linear-gradient(135deg, #fff 0%, #fafafa 100%);
   border: 3px solid #000;
@@ -130,6 +131,7 @@
 }
 
 /* Striped border design */
+
 .notice-card::before {
   content: '';
   position: absolute;
@@ -187,6 +189,7 @@
 }
 
 /* ============ Main Content ============ */
+
 .docs-content {
   margin-top: 2rem;
 }
@@ -233,6 +236,7 @@
 }
 
 /* ============ Features List ============ */
+
 .features-list {
   list-style: none;
   padding: 0;
@@ -259,6 +263,7 @@
 }
 
 /* ============ Resources Grid ============ */
+
 .resources-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -294,7 +299,7 @@
 .resource-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 16px rgba(255, 140, 0, 0.2);
-  border-color: #000;
+  /* border-color: #000; */
 }
 
 .resource-card h4 {
@@ -311,6 +316,7 @@
 }
 
 /* ============ FAQ ============ */
+
 .faq-item {
   margin-bottom: 2rem;
   padding: 1.5rem;
@@ -338,6 +344,7 @@
 }
 
 /* ============ Responsive Design ============ */
+
 @media (max-width: 768px) {
   .docs-container {
     padding: 1rem;

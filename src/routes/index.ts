@@ -4,6 +4,10 @@ import Package from '../view/PackageView.vue'
 import Documentation from '../view/DocumentationView.vue'
 import Community from '../view/CommunityView.vue'
 import Publish from '../view/PublishView.vue'
+import Tos from '../view/ToSView.vue'
+import Contact from '../view/ContactView.vue'
+import PrivacyPolicy from '../view/PrivacyView.vue'
+
 import { verifySessionGuard } from '../lib/routeGuards'
 
 const routes: RouteRecordRaw[] = [
@@ -34,7 +38,23 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/publish',
+    name: 'Publish',
     component: Publish
+  },
+  {
+    path: '/tos',
+    name: 'Terms of Service',
+    component: Tos
+  },
+  {
+    path: '/contact',
+    name: 'Contact Us',
+    component: Contact
+  },
+  {
+    path: '/privacy-policy',
+    name: 'Privacy Policy',
+    component: PrivacyPolicy
   }
 ]
 

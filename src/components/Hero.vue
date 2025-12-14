@@ -2,8 +2,8 @@
   <section class="hero">
     <div class="hero-content">
       <h1 class="hero-title">
-        <span class="hero-title-top">The Package Host for</span>
-        <span class="typing-text">Crabby Developers</span>
+        <span class="hero-title-top">The Package Hub for</span>
+        <span class="typing-text">Crabby Developers.</span>
       </h1>
       <p class="hero-subtitle">
         Discover, share, and deploy <b>Crabby</b> packages and libraries with reefs.io. 
@@ -122,7 +122,7 @@
 .btn-primary:hover {
   background-color: #f07237;
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(255, 140, 0, 0.4);
+  box-shadow: 0 8px 20px rgba(241, 132, 6, 0.836);
 }
 
 .btn-secondary {
@@ -134,7 +134,7 @@
 .btn-secondary:hover {
   background-color: rgba(255, 140, 0, 0.1);
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(255, 140, 0, 0.2);
+  box-shadow: 0 8px 20px rgba(233, 107, 4, 0.932);
 }
 
 .hero-stats {

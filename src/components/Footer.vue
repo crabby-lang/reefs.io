@@ -15,7 +15,6 @@
         <div class="footer-section">
           <h5>Product</h5>
           <ul>
-            <li><a href="/features">Features</a></li>
             <li><a href="/packages">Packages</a></li>
             <li><a href="/docs">Documentation</a></li>
           </ul>
@@ -35,7 +34,7 @@
           <h5>Legal</h5>
           <ul>
             <li><a href="/privacy">Privacy Policy</a></li>
-            <li><a href="/terms">Terms of Service</a></li>
+            <li><a href="/tos">Terms of Service</a></li>
             <li><a href="/cookies">Cookie Policy</a></li>
             <li><a href="/contact">Contact</a></li>
           </ul>
