@@ -1,6 +1,6 @@
 import { defineEventHandler, readBody, setResponseStatus } from 'h3'
-import userService from '../../../lib/userService'
-import type { AuthResponse } from '../../../lib/types/user'
+import userService from '../../../../lib/userService'
+import type { AuthResponse } from '../../../../lib/types/user'
 
 export default defineEventHandler(async (event) => {
   if (event.req.method === 'GET') {
