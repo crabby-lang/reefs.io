@@ -7,6 +7,7 @@ import Publish from '../view/PublishView.vue'
 import Tos from '../view/ToSView.vue'
 import Contact from '../view/ContactView.vue'
 import PrivacyPolicy from '../view/PrivacyView.vue'
+import Support from '../view/SupportView.vue'
 
 import { verifySessionGuard } from '../lib/routeGuards'
 
@@ -55,6 +56,11 @@ const routes: RouteRecordRaw[] = [
     path: '/privacy-policy',
     name: 'Privacy Policy',
     component: PrivacyPolicy
+  },
+  {
+    path: '/support',
+    name: 'Support',
+    component: Support
   }
 ]
 

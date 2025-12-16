@@ -18,6 +18,9 @@
         <li class="nav-item">
           <router-link to="/community" class="nav-link">Community</router-link>
         </li>
+        <li class="nav-item">
+          <router-link to="/support" class="nav-link">Support</router-link>
+        </li>
       </ul>
       <button class="nav-btn" @click="navigateToGetStarted">Get Started</button>
     </div>

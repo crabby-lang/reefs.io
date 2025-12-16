@@ -5,8 +5,8 @@ import type { User, UserLoginPayload, UserSignupPayload, AuthResponse } from './
 class UserService {
   private static instance: UserService
   private supabase: SupabaseClient | null = null
-  private supabaseUrl: string = process.env.VITE_SUPABASE_URL || ''
-  private supabaseAnonKey: string = process.env.VITE_SUPABASE_ANON_KEY || ''
+  private supabaseUrl: string = process.env.SUPABASE_URL || ''
+  private supabaseAnonKey: string = process.env.SUPABASE_API_KEY || ''
   private tableName: string = 'users'
 
   private constructor() {}
@@ -282,6 +282,29 @@ class UserService {
     } catch (error) {
       console.error('Error getting all users:', error)
       return []
+    }
+  }
+
+  async getUserById(id: string): Promise<User | null> {
+    try {
+      if (!this.supabase) {
+        await this.connect()
+      }
+
+      const { data, error } = await this.supabase!
+        .from(this.tableName)
+        .select('*')
+        .eq('id', id)
+        .single()
+
+      if (error && error.code !== 'PGRST116') {
+        throw error
+      }
+
+      return data || null
+    } catch (error) {
+      console.error('Error getting user by ID:', error)
+      return null
     }
   }
 }

@@ -7,8 +7,9 @@
           <p>The modern package hosting platform for crabby developers.</p>
           <div class="social-links">
             <a href="https://github.com/crabby-lang/reefs.io" aria-label="GitHub">🐙</a>
-            <a href="" aria-label="Twitter">𝕏</a>
+            <a href="https://x.com/kazooki123?t=1r1dvjKUcIOVOrCmUzyFdA&s=09" aria-label="Twitter">𝕏</a>
             <a href="" aria-label="Discord">💬</a>
+            <a href="https://bsky.app/profile/starloexoliz123.bsky.social" aria-label="Bluesky">🦋</a>
           </div>
         </div>
 
@@ -17,6 +18,7 @@
           <ul>
             <li><a href="/packages">Packages</a></li>
             <li><a href="/docs">Documentation</a></li>
+            <li><a href="/crab-book">Crab Book</a></li>
           </ul>
         </div>
 

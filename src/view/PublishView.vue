@@ -135,7 +135,7 @@
           <h1>Access Denied !!</h1>
           <p>You need to be logged in to publish packages.</p>
           <p class="error-description">
-            Oops! It seems you're not authenticated. Please log in or create an account to publish your packages on reefs.io.
+            Oops! It seems you're not authenticated. Please log in or create an account to publish your packages on reefs.
           </p>
           <router-link to="/" class="btn btn-primary">Go Home</router-link>
         </div>
